@@ -9,6 +9,12 @@
 export interface Agent {
   /** Process a single message and return a reply. */
   chat(request: ChatRequest): Promise<ChatResponse>;
+  /**
+   * Clear the conversation session for the given conversation ID.
+   * Called when the user sends the /clear slash command.
+   * Implementations should discard any stored conversation history or session state.
+   */
+  clearSession?(conversationId: string): void | Promise<void>;
 }
 
 export interface ChatRequest {

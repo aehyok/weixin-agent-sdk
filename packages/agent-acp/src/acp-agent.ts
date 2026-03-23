@@ -71,6 +71,18 @@ export class AcpAgent implements Agent {
   }
 
   /**
+   * Clear the ACP session for a conversation so that the next message
+   * starts a fresh session (used by the /clear slash command).
+   */
+  clearSession(conversationId: string): void {
+    const sessionId = this.sessions.get(conversationId);
+    if (sessionId) {
+      log(`session cleared: ${sessionId} (conversation=${conversationId})`);
+      this.sessions.delete(conversationId);
+    }
+  }
+
+  /**
    * Kill the ACP subprocess and clean up all sessions.
    */
   dispose(): void {

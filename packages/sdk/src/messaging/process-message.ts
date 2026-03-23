@@ -124,7 +124,12 @@ export async function processOneMessage(
       receivedAt,
       full.create_time_ms,
     );
-    if (slashResult.handled) return;
+    if (slashResult.handled) {
+      if (slashResult.clearSession) {
+        await deps.agent.clearSession?.(full.from_user_id ?? "");
+      }
+      return;
+    }
   }
 
   // --- Store context token ---

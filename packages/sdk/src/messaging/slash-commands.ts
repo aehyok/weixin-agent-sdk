@@ -4,6 +4,7 @@
  * 支持的指令：
  * - /echo <message>         直接回复消息（不经过 AI），并附带通道耗时统计
  * - /toggle-debug           开关 debug 模式，启用后每条 AI 回复追加全链路耗时
+ * - /clear                  清空当前会话的 AI 上下文（重置对话历史）
  */
 import type { WeixinApiOptions } from "../api/api.js";
 import { logger } from "../util/logger.js";
@@ -14,6 +15,8 @@ import { sendMessageWeixin } from "./send.js";
 export interface SlashCommandResult {
   /** 是否是斜杠指令（true 表示已处理，不需要继续走 AI） */
   handled: boolean;
+  /** 是否需要清除当前会话（/clear 指令时为 true） */
+  clearSession?: boolean;
 }
 
 export interface SlashCommandContext {
@@ -95,6 +98,9 @@ export async function handleSlashCommand(
         );
         return { handled: true };
       }
+      case "/clear":
+        await sendReply(ctx, "会话已清空");
+        return { handled: true, clearSession: true };
       default:
         return { handled: false };
     }
