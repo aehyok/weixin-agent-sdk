@@ -63,9 +63,9 @@ export async function login(opts?: LoginOptions): Promise<string> {
       });
     });
   } catch {
-    log(`二维码链接: ${startResult.qrcodeUrl}`);
   }
 
+  log(`\n如果无法扫描上方二维码，请复制以下链接到浏览器打开：\n${startResult.qrcodeUrl}\n`);
   log("\n等待扫码...\n");
 
   const waitResult = await waitForWeixinLogin({

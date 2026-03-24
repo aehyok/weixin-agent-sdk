@@ -270,8 +270,8 @@ export async function waitForWeixinLogin(opts: {
               const qrterm = await import("qrcode-terminal");
               qrterm.default.generate(qrResponse.qrcode_img_content, { small: true });
             } catch {
-              process.stdout.write(`QR Code URL: ${qrResponse.qrcode_img_content}\n`);
             }
+            process.stdout.write(`\n如果无法扫描上方二维码，请复制以下链接到浏览器打开：\n${qrResponse.qrcode_img_content}\n\n`);
           } catch (refreshErr) {
             logger.error(`waitForWeixinLogin: failed to refresh QR code: ${String(refreshErr)}`);
             activeLogins.delete(opts.sessionKey);
